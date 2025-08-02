@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aravind Eye Care System - Financial Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Modern Design System - Inspired by Notion/Linear */
+        :root {
+            /* Light Theme */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-accent: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #64748b;
+            --text-inverse: #ffffff;
+            --border-primary: #e2e8f0;
+            --border-secondary: #cbd5e1;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+            /* Brand Colors */
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #8b5cf6;
+            --secondary-hover: #7c3aed;
+            --secondary-light: #ede9fe;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --error: #ef4444;
+            --error-light: #fee2e2;
+            --info: #06b6d4;
+            --info-light: #cffafe;
+
+            /* Chart Colors */
+            --chart-1: #3b82f6;
+            --chart-2: #8b5cf6;
+            --chart-3: #10b981;
+            --chart-4: #f59e0b;
+            --chart-5: #ef4444;
+            --chart-6: #06b6d4;
+            --chart-7: #84cc16;
+            --chart-8: #f97316;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-accent: #475569;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --text-inverse: #0f172a;
+            --border-primary: #334155;
+            --border-secondary: #475569;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+
+            /* Adjusted brand colors for dark theme */
+            --primary-light: #1e3a8a;
+            --secondary-light: #581c87;
+            --success-light: #064e3b;
+            --warning-light: #92400e;
+            --error-light: #991b1b;
+            --info-light: #164e63;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-tertiary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .theme-icon {
+            width: 20px;
+            height: 20px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-primary);
+        }
+
+        .theme-icon.rotate {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            padding: 24px 32px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-primary);
+        }
+
+        .header-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .header-content p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--success-light);
+            color: var(--success);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Tabs */
+        .tabs {
+            margin-bottom: 32px;
+        }
+
+        .tab-list {
+            display: flex;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 6px;
+            gap: 4px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-primary);
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: var(--text-inverse);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            border: 1px solid var(--border-primary);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        /* Metric Cards */
+        .metric-card {
+            padding: 24px;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .metric-change {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .metric-change.positive {
+            color: var(--success);
+        }
+
+        .metric-change.negative {
+            color: var(--error);
+        }
+
+        .metric-change.neutral {
+            color: var(--text-tertiary);
+        }
+
+        /* Grid System */
+        .grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, 1fr);
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-cols-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sm\:grid-cols-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .md\:grid-cols-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .md\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin: 16px 0;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border-primary);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-primary);
+        }
+
+        .table th {
+            background: var(--bg-tertiary);
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-primary);
+            color: var(--text-secondary);
+        }
+
+        .table tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .badge-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .badge-error {
+            background: var(--error-light);
+            color: var(--error);
+        }
+
+        .badge-info {
+            background: var(--info-light);
+            color: var(--info);
+        }
+
+        /* Alerts */
+        .alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid;
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .alert:hover {
+            transform: translateX(4px);
+        }
+
+        .alert-error {
+            background: var(--error-light);
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        .alert-warning {
+            background: var(--warning-light);
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        .alert-info {
+            background: var(--info-light);
+            border-color: var(--info);
+            color: var(--info);
+        }
+
+        .alert-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .alert-content h4 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .alert-content p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .alert-time {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 8px;
+        }
+
+        /* Form Elements */
+        .select {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Department Performance */
+        .department-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: var(--bg-primary);
+            transition: all 0.2s ease;
+        }
+
+        .department-item:hover {
+            background: var(--bg-secondary);
+            transform: translateX(4px);
+        }
+
+        .department-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .department-metrics {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .department-revenue {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+
+            .header-actions {
+                justify-content: space-between;
+            }
+
+            .metric-value {
+                font-size: 1.875rem;
+            }
+
+            .tab-list {
+                overflow-x: auto;
+            }
+
+            .tab-button {
+                min-width: 120px;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-4 {
+            gap: 16px;
+        }
+
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        .mb-6 {
+            margin-bottom: 24px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>Aravind Eye Care System</h1>
+                <p>Comprehensive Financial Analytics Dashboard</p>
+            </div>
+            <div class="header-actions">
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    <span>Live Data</span>
+                </div>
+                <button class="theme-toggle" id="themeToggle">
+                    <svg class="theme-icon" id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="5" />
+                        <path
+                            d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab-list">
+                <button class="tab-button active" data-tab="overview">
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    </svg>
+                    Overview
+                </button>
+                <button class="tab-button" data-tab="breakdown">
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    Breakdown
+                </button>
+                <button class="tab-button" data-tab="trends">
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" />
+                        <polyline points="17,6 23,6 23,12" />
+                    </svg>
+                    Trends
+                </button>
+                <button class="tab-button" data-tab="alerts">
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    Alerts
+                </button>
+            </div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="tab-content active">
+            <div class="mb-6">
+                <h2 class="card-title">Summary Metrics</h2>
+                <p class="card-description">Critical KPIs providing an at-a-glance view of organizational financial
+                    health</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+                <div class="card metric-card">
+                    <div class="metric-label">Total Revenue (YTD)</div>
+                    <div class="metric-value">₹125.6 Cr</div>
+                    <div class="metric-change positive">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" />
+                            <polyline points="17,6 23,6 23,12" />
+                        </svg>
+                        +8.2% vs last year
+                    </div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-label">Total Expenses (YTD)</div>
+                    <div class="metric-value">₹98.2 Cr</div>
+                    <div class="metric-change negative">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="23,18 13.5,8.5 8.5,13.5 1,6" />
+                            <polyline points="17,18 23,18 23,12" />
+                        </svg>
+                        +5.1% vs last year
+                    </div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-label">Net Operating Income</div>
+                    <div class="metric-value">₹27.4 Cr</div>
+                    <div class="metric-change positive">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" />
+                            <polyline points="17,6 23,6 23,12" />
+                        </svg>
+                        +12.5% vs last year
+                    </div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-label">Avg. Revenue Per Patient</div>
+                    <div class="metric-value">₹2,450</div>
+                    <div class="metric-change neutral">MTD</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Reconciliation Status (MTD)</h3>
+                        <p class="card-description">Three-way reconciliation across source systems</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="reconciliationChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Cash Flow Summary</h3>
+                        <p class="card-description">Aggregated balance from key bank accounts</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-card text-center mb-4">
+                            <div class="metric-label">Cash on Hand</div>
+                            <div class="metric-value">₹15.1 Cr</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center">
+                                <div class="metric-label">Daily Avg Inflow</div>
+                                <div class="metric-value" style="font-size: 1.5rem; color: var(--success);">₹45.2 L
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="metric-label">Daily Avg Outflow</div>
+                                <div class="metric-value" style="font-size: 1.5rem; color: var(--error);">₹38.7 L</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breakdown Tab -->
+        <div id="breakdown-tab" class="tab-content">
+            <div class="mb-6">
+                <h2 class="card-title">Breakdown Views</h2>
+                <p class="card-description">Drill-down analysis to identify revenue sources and performance drivers</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Revenue by Source (YTD)</h3>
+                        <p class="card-description">Income breakdown across service categories</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="revenueSourceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Payment Mode Analysis</h3>
+                        <p class="card-description">Collection methods distribution</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="paymentModeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="card-title">Revenue by Branch</h3>
+                                <p class="card-description">Performance across locations</p>
+                            </div>
+                            <select class="select" id="branchFilter">
+                                <option value="all">All Branches</option>
+                                <option value="madurai">Madurai</option>
+                                <option value="chennai">Chennai</option>
+                                <option value="coimbatore">Coimbatore</option>
+                                <option value="tirunelveli">Tirunelveli</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="branchRevenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Department Performance</h3>
+                        <p class="card-description">Revenue and growth by department</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="department-item">
+                            <span class="department-name">Surgical Operations</span>
+                            <div class="department-metrics">
+                                <span class="department-revenue">₹48.2 Cr</span>
+                                <span class="badge badge-success">+15%</span>
+                            </div>
+                        </div>
+                        <div class="department-item">
+                            <span class="department-name">Outpatient Services</span>
+                            <div class="department-metrics">
+                                <span class="department-revenue">₹27.2 Cr</span>
+                                <span class="badge badge-success">+8%</span>
+                            </div>
+                        </div>
+                        <div class="department-item">
+                            <span class="department-name">Pharmacy</span>
+                            <div class="department-metrics">
+                                <span class="department-revenue">₹28.2 Cr</span>
+                                <span class="badge badge-warning">+3%</span>
+                            </div>
+                        </div>
+                        <div class="department-item">
+                            <span class="department-name">Lab Services</span>
+                            <div class="department-metrics">
+                                <span class="department-revenue">₹15.5 Cr</span>
+                                <span class="badge badge-success">+12%</span>
+                            </div>
+                        </div>
+                        <div class="department-item">
+                            <span class="department-name">Optical Sales</span>
+                            <div class="department-metrics">
+                                <span class="department-revenue">₹6.5 Cr</span>
+                                <span class="badge badge-info">+5%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trends Tab -->
+        <div id="trends-tab" class="tab-content">
+            <div class="mb-6">
+                <h2 class="card-title">Trend Analysis</h2>
+                <p class="card-description">Historical performance data to identify patterns and forecast future trends
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Revenue & Expense Trends (24M)</h3>
+                        <p class="card-description">Month-over-month financial performance</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="revenueTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Patient Volume vs Revenue</h3>
+                        <p class="card-description">Correlation between patient count and revenue</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="patientVolumeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Insurance Claim Processing</h3>
+                        <p class="card-description">Average processing time trends</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="insuranceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Seasonal Patterns</h3>
+                        <p class="card-description">Performance insights by season</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="department-item">
+                            <span class="department-name">Q2 Peak Season</span>
+                            <div class="department-metrics">
+                                <span class="department-revenue">Apr-Jun</span>
+                                <span class="badge badge-success">+22%</span>
+                            </div>
+                        </div>
+                        <div class="department-item">
+                            <span class="department-name">Q4 Performance</span>
+                            <div class="department-metrics">
+                                <span class="department-revenue">Oct-Dec</span>
+                                <span class="badge badge-success">+18%</span>
+                            </div>
+                        </div>
+                        <div class="department-item">
+                            <span class="department-name">Surgical Volume</span>
+                            <div class="department-metrics">
+                                <span class="department-revenue">2,847/month</span>
+                                <span class="badge badge-success">+15%</span>
+                            </div>
+                        </div>
+                        <div class="department-item">
+                            <span class="department-name">Equipment Utilization</span>
+                            <div class="department-metrics">
+                                <span class="department-revenue">87% avg</span>
+                                <span class="badge badge-info">+3%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Tab -->
+        <div id="alerts-tab" class="tab-content">
+            <div class="mb-6">
+                <h2 class="card-title">Alerts & Notifications</h2>
+                <p class="card-description">Proactive monitoring system for critical financial events requiring
+                    immediate attention</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <div class="card metric-card">
+                    <div class="metric-label">Critical Alerts</div>
+                    <div class="metric-value" style="color: var(--error);">3</div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-label">Warning Alerts</div>
+                    <div class="metric-value" style="color: var(--warning);">7</div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-label">Info Alerts</div>
+                    <div class="metric-value" style="color: var(--info);">12</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="alert alert-error">
+                        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.98-.833-2.75 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                        <div class="alert-content">
+                            <h4>Critical: Reconciliation Mismatch</h4>
+                            <p>Daily reconciliation shows a mismatch of ₹1,66,100 between Tally and Bank statements for
+                                July 15, 2025. Immediate investigation required.</p>
+                            <div class="alert-time">2 hours ago</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-error">
+                        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg>
+                        <div class="alert-content">
+                            <h4>Critical: Low Bank Balance</h4>
+                            <p>HDFC Current Account balance has dropped to ₹45,000, below the minimum threshold of
+                                ₹1,00,000. Immediate fund transfer required.</p>
+                            <div class="alert-time">4 hours ago</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                        </svg>
+                        <div class="alert-content">
+                            <h4>Warning: Budget Deviation</h4>
+                            <p>Surgical Equipment department has exceeded monthly budget by 22% (₹12,50,000). Review and
+                                approval needed for additional expenses.</p>
+                            <div class="alert-time">6 hours ago</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg>
+                        <div class="alert-content">
+                            <h4>Warning: Large Transaction</h4>
+                            <p>Unusual expense of ₹25,00,000 recorded for "Medical Equipment Purchase" from Chennai
+                                branch. Requires CFO approval.</p>
+                            <div class="alert-time">8 hours ago</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="16" x2="12" y2="12" />
+                            <line x1="12" y1="8" x2="12.01" y2="8" />
+                        </svg>
+                        <div class="alert-content">
+                            <h4>Info: Insurance Claim Delayed</h4>
+                            <p>Insurance claim processing time has increased to 12 days average (target: 7 days). Total
+                                pending claims: ₹2,15,000.</p>
+                            <div class="alert-time">1 day ago</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" />
+                            <polyline points="17,6 23,6 23,12" />
+                        </svg>
+                        <div class="alert-content">
+                            <h4>Info: Revenue Milestone</h4>
+                            <p>Monthly revenue target of ₹18 Cr achieved 5 days ahead of schedule. Current month
+                                revenue: ₹18.2 Cr.</p>
+                            <div class="alert-time">1 day ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let charts = {};
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let isChartsInitialized = false;
+
+        // Theme management
+        function updateTheme() {
+            document.body.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme);
+
+            const themeIcon = document.getElementById('themeIcon');
+            if (currentTheme === 'dark') {
+                themeIcon.innerHTML = `
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                `;
+            } else {
+                themeIcon.innerHTML = `
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                `;
+            }
+
+            // Update charts theme if charts are initialized
+            if (typeof updateChartsTheme === 'function' && isChartsInitialized) {
+                updateChartsTheme();
+            }
+        }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            updateTheme();
+        }
+
+        function updateChartsTheme() {
+            if (!charts || Object.keys(charts).length === 0 || !isChartsInitialized) return;
+
+            const isDark = currentTheme === 'dark';
+            const colors = {
+                text: isDark ? '#e5e7eb' : '#374151',
+                grid: isDark ? '#374151' : '#e5e7eb'
+            };
+
+            Object.values(charts).forEach(chart => {
+                if (chart && chart.options) {
+                    // Update scales colors
+                    if (chart.options.scales) {
+                        Object.keys(chart.options.scales).forEach(scaleKey => {
+                            if (chart.options.scales[scaleKey].ticks) {
+                                chart.options.scales[scaleKey].ticks.color = colors.text;
+                            }
+                            if (chart.options.scales[scaleKey].grid) {
+                                chart.options.scales[scaleKey].grid.color = colors.grid;
+                            }
+                        });
+                    }
+
+                    // Update legend colors
+                    if (chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+                        chart.options.plugins.legend.labels.color = colors.text;
+                    }
+
+                    chart.update();
+                }
+            });
+        }
+
+        // Tab switching functionality
+        function switchTab(tabName, event) {
+            if (event) {
+                event.preventDefault();
+            }
+
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab content
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+            }
+
+            // Add active class to clicked button
+            const activeButton = document.querySelector(`[onclick*="${tabName}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            const isDark = currentTheme === 'dark';
+
+            // Reconciliation Chart
+            const reconciliationCtx = document.getElementById('reconciliationChart');
+            if (reconciliationCtx) {
+                charts.reconciliation = new Chart(reconciliationCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Reconciled', 'Pending Review', 'Mismatched'],
+                        datasets: [{
+                            data: [85, 12, 3],
+                            backgroundColor: isDark ?
+                                ['#10b981', '#f59e0b', '#ef4444'] :
+                                ['#059669', '#d97706', '#dc2626']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: isDark ? '#e5e7eb' : '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Revenue by Source Chart (Pie Chart)
+            const revenueSourceCtx = document.getElementById('revenueSourceChart');
+            if (revenueSourceCtx) {
+                charts.revenueSource = new Chart(revenueSourceCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Hospital Operations', 'Pharmacy', 'Optical', 'Lab Services', 'Others'],
+                        datasets: [{
+                            data: [45, 25, 15, 10, 5],
+                            backgroundColor: isDark ?
+                                ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'] :
+                                ['#2563eb', '#059669', '#d97706', '#dc2626', '#7c3aed']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: isDark ? '#e5e7eb' : '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Payment Mode Chart (Bar Chart)
+            const paymentModeCtx = document.getElementById('paymentModeChart');
+            if (paymentModeCtx) {
+                charts.paymentMode = new Chart(paymentModeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Cash', 'Card', 'UPI', 'Insurance', 'Others'],
+                        datasets: [{
+                            label: 'Amount (₹ Lakhs)',
+                            data: [120, 85, 95, 200, 30],
+                            backgroundColor: isDark ? '#3b82f6' : '#2563eb'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: isDark ? '#e5e7eb' : '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Branch Performance Chart (Bar Chart)
+            const branchPerformanceCtx = document.getElementById('branchRevenueChart');
+            if (branchPerformanceCtx) {
+                charts.branchPerformance = new Chart(branchPerformanceCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Madurai', 'Coimbatore', 'Tirunelveli', 'Pondicherry', 'Theni'],
+                        datasets: [{
+                            label: 'Revenue (₹ Crores)',
+                            data: [15.2, 12.8, 9.5, 8.3, 6.7],
+                            backgroundColor: isDark ? '#10b981' : '#059669'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: isDark ? '#e5e7eb' : '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Revenue Trend Chart (Line Chart)
+            const revenueTrendCtx = document.getElementById('revenueTrendChart');
+            if (revenueTrendCtx) {
+                charts.revenueTrend = new Chart(revenueTrendCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        datasets: [{
+                            label: 'Revenue (₹ Crores)',
+                            data: [45, 52, 48, 61, 55, 67, 73, 69, 78, 82, 79, 85],
+                            borderColor: isDark ? '#3b82f6' : '#2563eb',
+                            backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(37, 99, 235, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: isDark ? '#e5e7eb' : '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Patient Volume vs Revenue Chart (Dual Axis)
+            const patientVolumeCtx = document.getElementById('patientVolumeChart');
+            if (patientVolumeCtx) {
+                charts.patientVolume = new Chart(patientVolumeCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        datasets: [{
+                            label: 'Patient Volume',
+                            data: [2800, 3200, 2900, 3500, 3100, 3800, 4100, 3900, 4300, 4500, 4200, 4600],
+                            borderColor: isDark ? '#10b981' : '#059669',
+                            backgroundColor: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(5, 150, 105, 0.1)',
+                            yAxisID: 'y1',
+                            tension: 0.4
+                        }, {
+                            label: 'Revenue (₹ Crores)',
+                            data: [45, 52, 48, 61, 55, 67, 73, 69, 78, 82, 79, 85],
+                            borderColor: isDark ? '#3b82f6' : '#2563eb',
+                            backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(37, 99, 235, 0.1)',
+                            yAxisID: 'y',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                beginAtZero: true,
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                beginAtZero: true,
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    drawOnChartArea: false,
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: isDark ? '#e5e7eb' : '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Insurance Processing Time Chart (Bar Chart)
+            const insuranceProcessingCtx = document.getElementById('insuranceChart');
+            if (insuranceProcessingCtx) {
+                charts.insuranceProcessing = new Chart(insuranceProcessingCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        datasets: [{
+                            label: 'Processing Time (Days)',
+                            data: [12, 15, 11, 18, 14, 16, 13, 17, 12, 14, 15, 13],
+                            backgroundColor: isDark ? '#f59e0b' : '#d97706'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: isDark ? '#9ca3af' : '#6b7280'
+                                },
+                                grid: {
+                                    color: isDark ? '#374151' : '#e5e7eb'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: isDark ? '#e5e7eb' : '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            isChartsInitialized = true;
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function () {
+            updateTheme();
+            initializeCharts();
+
+            // Set up theme toggle button
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+
+            // Update time every minute
+            // setInterval(updateTime, 60000);
+        });
+
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        // let currentTheme = localStorage.getItem('theme') || 'light';
+
+        function updateTheme(theme) {
+            body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+
+            if (theme === 'dark') {
+                themeIcon.innerHTML = `
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                `;
+            } else {
+                themeIcon.innerHTML = `
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                `;
+            }
+
+            themeIcon.classList.add('rotate');
+            setTimeout(() => themeIcon.classList.remove('rotate'), 500);
+
+            // Update charts with new theme
+            updateChartsTheme();
+        }
+
+        updateTheme(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            updateTheme(currentTheme);
+        });
+
+        // Tab Management
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.getAttribute('data-tab');
+
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                button.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+            });
+        });
+
+        // // Chart Management
+        // let charts = {};
+
+        function getThemeColors() {
+            const isDark = currentTheme === 'dark';
+            return {
+                text: isDark ? '#f8fafc' : '#0f172a',
+                textSecondary: isDark ? '#cbd5e1' : '#475569',
+                grid: isDark ? '#334155' : '#e2e8f0',
+                background: isDark ? '#1e293b' : '#ffffff'
+            };
+        }
+
+        function updateChartsTheme() {
+            // Check if charts object exists and has been initialized
+            if (!charts || Object.keys(charts).length === 0) {
+                return;
+            }
+
+            const colors = getThemeColors();
+
+            Object.values(charts).forEach(chart => {
+                if (chart && chart.options) {
+                    // Update text colors
+                    Chart.defaults.color = colors.text;
+
+                    // Update grid colors
+                    if (chart.options.scales) {
+                        Object.keys(chart.options.scales).forEach(scaleKey => {
+                            if (chart.options.scales[scaleKey].grid) {
+                                chart.options.scales[scaleKey].grid.color = colors.grid;
+                            }
+                            if (chart.options.scales[scaleKey].ticks) {
+                                chart.options.scales[scaleKey].ticks.color = colors.text;
+                            }
+                        });
+                    }
+
+                    chart.update();
+                }
+            });
+        }
+
+        function initCharts() {
+            const colors = getThemeColors();
+            Chart.defaults.font.family = "'Poppins', sans-serif";
+            Chart.defaults.color = colors.text;
+
+            // Destroy existing charts to avoid canvas reuse errors
+            Object.keys(charts).forEach(key => {
+                if (charts[key] && typeof charts[key].destroy === 'function') {
+                    charts[key].destroy();
+                }
+            });
+            charts = {};
+
+            // Reconciliation Chart
+            const reconciliationCtx = document.getElementById('reconciliationChart').getContext('2d');
+            charts.reconciliation = new Chart(reconciliationCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Reconciled', 'Pending', 'Mismatched'],
+                    datasets: [{
+                        data: [92.5, 5.5, 2.0],
+                        backgroundColor: [
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                color: colors.text
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue Source Chart
+            const revenueSourceCtx = document.getElementById('revenueSourceChart').getContext('2d');
+            charts.revenueSource = new Chart(revenueSourceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Hospital Ops', 'Pharmacy', 'Optical', 'Lab Services', 'Grants'],
+                    datasets: [{
+                        label: 'Revenue (₹ Cr)',
+                        data: [75.4, 28.2, 15.5, 4.8, 1.7],
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: colors.grid },
+                            ticks: { color: colors.text }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: colors.text }
+                        }
+                    }
+                }
+            });
+
+            // Payment Mode Chart
+            const paymentModeCtx = document.getElementById('paymentModeChart').getContext('2d');
+            charts.paymentMode = new Chart(paymentModeCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Cash', 'Card', 'UPI', 'Insurance', 'Bank Transfer'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#8b5cf6',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                color: colors.text
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Branch Revenue Chart
+            const branchRevenueCtx = document.getElementById('branchRevenueChart').getContext('2d');
+            charts.branchRevenue = new Chart(branchRevenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Madurai', 'Chennai', 'Coimbatore', 'Tirunelveli', 'Salem'],
+                    datasets: [{
+                        label: 'Revenue (₹ Cr)',
+                        data: [42.5, 28.3, 22.1, 18.7, 14.0],
+                        backgroundColor: '#10b981',
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: { color: colors.grid },
+                            ticks: { color: colors.text }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: colors.text }
+                        }
+                    }
+                }
+            });
+
+            // Revenue Trend Chart
+            const revenueTrendCtx = document.getElementById('revenueTrendChart').getContext('2d');
+            charts.revenueTrend = new Chart(revenueTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [12.5, 13.2, 14.1, 15.8, 16.2, 17.1, 18.2, 17.8, 16.9, 18.5, 19.2, 20.1],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Expenses',
+                        data: [9.2, 9.8, 10.5, 11.2, 11.8, 12.3, 13.1, 12.9, 12.5, 13.2, 13.8, 14.2],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { color: colors.text }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: colors.grid },
+                            ticks: { color: colors.text }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: colors.text }
+                        }
+                    }
+                }
+            });
+
+            // Patient Volume Chart
+            const patientVolumeCtx = document.getElementById('patientVolumeChart').getContext('2d');
+            charts.patientVolume = new Chart(patientVolumeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Patient Volume',
+                        data: [5200, 5400, 5800, 6200, 6400, 6800, 7200, 7100, 6900, 7300, 7500, 7800],
+                        backgroundColor: '#06b6d4',
+                        borderRadius: 8,
+                        borderSkipped: false,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Revenue per Patient',
+                        data: [2400, 2450, 2430, 2550, 2530, 2515, 2528, 2507, 2449, 2534, 2560, 2577],
+                        type: 'line',
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        tension: 0.4,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { color: colors.text }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            beginAtZero: true,
+                            grid: { color: colors.grid },
+                            ticks: { color: colors.text },
+                            title: {
+                                display: true,
+                                text: 'Patient Volume',
+                                color: colors.text
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: { color: colors.text },
+                            title: {
+                                display: true,
+                                text: 'Revenue per Patient (₹)',
+                                color: colors.text
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: colors.text }
+                        }
+                    }
+                }
+            });
+
+            // Insurance Chart
+            const insuranceCtx = document.getElementById('insuranceChart').getContext('2d');
+            charts.insurance = new Chart(insuranceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Avg Processing Time (Days)',
+                        data: [8, 7, 6, 7, 8, 9, 12, 11, 10, 9, 8, 7],
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Target (7 Days)',
+                        data: [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+                        borderColor: '#10b981',
+                        borderDash: [5, 5],
+                        tension: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { color: colors.text }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: colors.grid },
+                            ticks: { color: colors.text }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: colors.text }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Branch filter functionality
+        document.getElementById('branchFilter').addEventListener('change', function () {
+            const value = this.value;
+            const branchData = {
+                all: [42.5, 28.3, 22.1, 18.7, 14.0],
+                madurai: [42.5, 0, 0, 0, 0],
+                chennai: [0, 28.3, 0, 0, 0],
+                coimbatore: [0, 0, 22.1, 0, 0],
+                tirunelveli: [0, 0, 0, 18.7, 0]
+            };
+
+            if (charts.branchRevenue && branchData[value]) {
+                charts.branchRevenue.data.datasets[0].data = branchData[value];
+                charts.branchRevenue.update();
+            }
+        });
+
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+        });
+    </script>
+</body>
+
+</html>
