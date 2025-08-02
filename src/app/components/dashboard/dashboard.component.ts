@@ -262,98 +262,102 @@ import { DashboardService } from '../../services/dashboard.service';
   `,
   styles: [`
     .dashboard-container {
-      padding: 12px;
+      padding: 24px;
       min-height: 100vh;
-      background: #F5F5F5;
+      background: #f8fafc;
+      max-width: 1920px;
+      margin: 0 auto;
     }
 
     .dashboard-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(15px);
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      margin-bottom: 32px;
+      padding: 32px;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     .dashboard-title {
       margin: 0;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 800;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #0f172a;
+      letter-spacing: -0.025em;
     }
 
     .dashboard-subtitle {
       margin: 4px 0 0 0;
       color: #64748b;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: 500;
     }
 
     .refresh-btn {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      border-radius: 8px;
-      background: rgba(59, 130, 246, 0.1);
-      color: #3b82f6;
+      gap: 8px;
+      padding: 12px 20px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #475569;
       cursor: pointer;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 14px;
       transition: all 0.3s ease;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
 
     .refresh-btn:hover {
-      background: rgba(59, 130, 246, 0.2);
+      background: #f8fafc;
+      border-color: #cbd5e1;
       transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
     }
 
     .main-charts-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 24px;
+      margin-bottom: 32px;
     }
 
     /* Bento Grid Styles (Analytics) */
     .bento-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-      margin-bottom: 24px;
+      gap: 20px;
+      margin-bottom: 40px;
     }
 
     .bento-item {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(15px);
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       transition: all 0.3s ease;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      padding: 12px;
-      min-height: 300px;
+      padding: 20px;
+      min-height: 320px;
     }
 
     .bento-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-color: #cbd5e1;
     }
 
     .bento-item app-chart {
@@ -365,7 +369,7 @@ import { DashboardService } from '../../services/dashboard.service';
     .bento-item.large-bento {
       grid-column: 1 / 5;
       grid-row: 1 / 3;
-      min-height: 400px;
+      min-height: 420px;
     }
 
     .bento-item:nth-child(2) {
@@ -396,7 +400,7 @@ import { DashboardService } from '../../services/dashboard.service';
     .bento-item.tall-bento {
       grid-column: 9 / 13;
       grid-row: 3 / 5;
-      min-height: 450px;
+      min-height: 480px;
     }
 
     .bento-item:nth-child(8) {
@@ -406,47 +410,46 @@ import { DashboardService } from '../../services/dashboard.service';
 
     /* Trends Bento Grid Styles */
     .trends-kpi-section {
-      margin-bottom: 24px;
-      padding: 16px;
+      margin-bottom: 40px;
+      padding: 0;
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 32px;
     }
 
     .section-header h2 {
       margin: 0;
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 700;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #0f172a;
+      letter-spacing: -0.025em;
     }
 
     .bento-grid-trends {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
+      gap: 20px;
     }
 
     .bento-grid-trends .bento-item {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(20px);
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.12);
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       transition: all 0.3s ease;
       overflow: visible;
-      padding: 12px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      min-height: 350px;
+      min-height: 380px;
     }
 
     .bento-grid-trends .bento-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 48px rgba(0, 0, 0, 0.18);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-color: #cbd5e1;
     }
 
     .bento-grid-trends .bento-item app-chart {
@@ -480,34 +483,34 @@ import { DashboardService } from '../../services/dashboard.service';
 
     /* Alerts Section Styles */
     .alerts-section {
-      margin-bottom: 24px;
-      padding: 16px;
+      margin-bottom: 40px;
+      padding: 0;
     }
 
     .alerts-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
+      gap: 20px;
     }
 
     .alert-card {
       grid-column: span 4;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(15px);
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-      padding: 16px;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
     .alert-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-color: #cbd5e1;
     }
 
     .alert-card.critical {
@@ -530,15 +533,18 @@ import { DashboardService } from '../../services/dashboard.service';
 
     .alert-header h3 {
       margin: 0;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 600;
+      color: #0f172a;
     }
 
     .alert-status {
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
     }
 
     .alert-status.critical {
@@ -558,17 +564,18 @@ import { DashboardService } from '../../services/dashboard.service';
 
     .alert-details {
       margin: 0;
-      font-size: 14px;
+      font-size: 15px;
       color: #64748b;
+      line-height: 1.6;
     }
 
     .alert-action button {
-      padding: 8px 12px;
+      padding: 10px 16px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       background: #3b82f6;
       color: white;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.3s ease;
@@ -579,30 +586,41 @@ import { DashboardService } from '../../services/dashboard.service';
     }
 
     .chart-card {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(15px);
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-      min-height: 300px;
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      min-height: 320px;
       transition: all 0.3s ease;
       overflow: visible;
-      padding: 12px;
+      padding: 20px;
     }
 
     .chart-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-color: #cbd5e1;
     }
 
     .large-chart {
-      min-height: 350px;
+      min-height: 380px;
     }
 
     /* Responsive Design */
+    @media (max-width: 2560px) {
+      .dashboard-container {
+        padding: 32px;
+      }
+    }
+
     @media (max-width: 1600px) {
+      .dashboard-container {
+        padding: 24px;
+      }
+
       .bento-grid {
         grid-template-columns: repeat(8, 1fr);
+        gap: 16px;
       }
 
       .bento-item.large-bento {
@@ -645,6 +663,10 @@ import { DashboardService } from '../../services/dashboard.service';
         grid-row: 3 / 4;
       }
 
+      .bento-grid-trends {
+        gap: 16px;
+      }
+
       .bento-grid-trends .bento-item.revenue-expenses {
         grid-column: span 4;
       }
@@ -668,15 +690,25 @@ import { DashboardService } from '../../services/dashboard.service';
       .bento-grid-trends .bento-item.patient-volume {
         grid-column: span 3;
       }
+
+      .alerts-grid {
+        gap: 16px;
+      }
     }
 
     @media (max-width: 1400px) {
+      .dashboard-container {
+        padding: 20px;
+      }
+
       .main-charts-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
       }
 
       .bento-grid-trends {
         grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
       }
 
       .bento-grid-trends .bento-item.revenue-expenses {
@@ -705,6 +737,7 @@ import { DashboardService } from '../../services/dashboard.service';
 
       .alerts-grid {
         grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
       }
 
       .alert-card {
@@ -713,8 +746,17 @@ import { DashboardService } from '../../services/dashboard.service';
     }
 
     @media (max-width: 1200px) {
+      .dashboard-container {
+        padding: 16px;
+      }
+
+      .kpi-grid {
+        gap: 16px;
+      }
+
       .bento-grid {
         grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
       }
 
       .bento-item.large-bento {
@@ -760,46 +802,48 @@ import { DashboardService } from '../../services/dashboard.service';
       .bento-grid-trends {
         grid-template-columns: repeat(12, 1fr);
         grid-template-rows: auto auto;
+        gap: 16px;
       }
 
       .bento-grid-trends .bento-item.revenue-expenses {
         grid-column: 1 / 5;
         grid-row: 1 / 2;
-        min-height: 320px;
+        min-height: 340px;
       }
 
       .bento-grid-trends .bento-item.net-income {
         grid-column: 5 / 9;
         grid-row: 1 / 2;
-        min-height: 320px;
+        min-height: 340px;
       }
 
       .bento-grid-trends .bento-item.reconciliation {
         grid-column: 9 / 13;
         grid-row: 1 / 2;
-        min-height: 320px;
+        min-height: 340px;
       }
 
       .bento-grid-trends .bento-item.cash-flow {
         grid-column: 1 / 7;
         grid-row: 2 / 3;
-        min-height: 320px;
+        min-height: 340px;
       }
 
       .bento-grid-trends .bento-item.revenue-target {
         grid-column: 7 / 13;
         grid-row: 2 / 3;
-        min-height: 320px;
+        min-height: 340px;
       }
 
       .bento-grid-trends .bento-item.patient-volume {
         grid-column: 1 / 7;
         grid-row: 3 / 4;
-        min-height: 320px;
+        min-height: 340px;
       }
 
       .alerts-grid {
         grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
       }
 
       .alert-card {
@@ -809,67 +853,107 @@ import { DashboardService } from '../../services/dashboard.service';
 
     @media (max-width: 768px) {
       .dashboard-container {
-        padding: 8px;
+        padding: 16px;
       }
       
       .dashboard-header {
         flex-direction: column;
-        gap: 12px;
-        padding: 16px;
+        gap: 16px;
+        padding: 24px;
+        margin-bottom: 24px;
       }
       
       .dashboard-title {
-        font-size: 24px;
+        font-size: 28px;
+        text-align: center;
+      }
+
+      .dashboard-subtitle {
         text-align: center;
       }
       
       .kpi-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .main-charts-grid {
+        gap: 16px;
+        margin-bottom: 24px;
       }
 
       .bento-grid, .bento-grid-trends, .alerts-grid {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 16px;
       }
 
       .bento-item, .bento-grid-trends .bento-item, .alert-card {
         grid-column: 1 / -1 !important;
         grid-row: auto !important;
-        min-height: 320px;
+        min-height: 300px;
+        padding: 16px;
       }
 
       .chart-card {
-        min-height: 250px;
+        min-height: 280px;
+        padding: 16px;
       }
       
       .large-chart {
-        min-height: 300px;
+        min-height: 320px;
+      }
+
+      .trends-kpi-section, .alerts-section {
+        margin-bottom: 32px;
+      }
+
+      .section-header {
+        margin-bottom: 24px;
+      }
+
+      .section-header h2 {
+        font-size: 24px;
       }
     }
 
     @media (max-width: 480px) {
       .dashboard-container {
-        padding: 6px;
-      }
-      
-      .dashboard-header {
         padding: 12px;
       }
       
+      .dashboard-header {
+        padding: 20px;
+      }
+      
       .dashboard-title {
-        font-size: 20px;
+        font-size: 24px;
+      }
+
+      .dashboard-subtitle {
+        font-size: 14px;
       }
       
       .chart-card {
-        min-height: 220px;
+        min-height: 260px;
+        padding: 16px;
       }
       
       .large-chart {
-        min-height: 260px;
+        min-height: 300px;
       }
 
       .bento-item, .bento-grid-trends .bento-item, .alert-card {
-        min-height: 300px !important;
+        min-height: 280px !important;
+        padding: 16px;
+      }
+
+      .section-header h2 {
+        font-size: 22px;
+      }
+
+      .alert-card {
+        padding: 20px;
       }
     }
   `]

@@ -30,20 +30,21 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [`
     .table-wrapper {
-      padding: 24px;
+      padding: 0;
     }
 
     .table-title {
-      margin: 0 0 20px 0;
-      font-size: 20px;
+      margin: 0 0 24px 0;
+      font-size: 22px;
       font-weight: 700;
-      color: #1e293b;
+      color: #0f172a;
+      letter-spacing: -0.025em;
     }
 
     .table-container {
       overflow-x: auto;
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
     }
 
     .data-table {
@@ -52,20 +53,22 @@ import { CommonModule } from '@angular/common';
     }
 
     .data-table th {
-      background: rgba(148, 163, 184, 0.1);
-      padding: 16px 12px;
+      background: #f8fafc;
+      padding: 20px 16px;
       text-align: left;
       font-weight: 700;
-      color: #1e293b;
-      font-size: 12px;
+      color: #0f172a;
+      font-size: 13px;
       text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .data-table td {
-      padding: 16px 12px;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      padding: 20px 16px;
+      border-bottom: 1px solid #e2e8f0;
       color: #374151;
       font-weight: 500;
+      font-size: 15px;
     }
 
     .data-table tr:hover {

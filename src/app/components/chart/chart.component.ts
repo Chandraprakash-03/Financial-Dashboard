@@ -20,24 +20,25 @@ Chart.register(...registerables);
   `,
   styles: [`
     .chart-wrapper {
-      padding: 16px;
+      padding: 0;
       height: 100%;
       display: flex;
       flex-direction: column;
     }
 
     .chart-header h3 {
-      margin: 0 0 16px 0;
-      font-size: 16px;
+      margin: 0 0 20px 0;
+      font-size: 18px;
       font-weight: 600;
-      color: #2c3e50;
+      color: #0f172a;
       text-align: center;
+      letter-spacing: -0.025em;
     }
 
     .chart-container {
       position: relative;
       flex: 1;
-      min-height: 250px;
+      min-height: 280px;
     }
 
     canvas {

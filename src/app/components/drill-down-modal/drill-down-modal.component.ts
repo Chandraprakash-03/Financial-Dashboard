@@ -112,8 +112,7 @@ Chart.register(...registerables);
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.6);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -123,12 +122,12 @@ Chart.register(...registerables);
 
       .modal-content {
         background: white;
-        border-radius: 20px;
+        border-radius: 24px;
         width: 90%;
         max-width: 1200px;
         max-height: 90vh;
         overflow-y: auto;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         animation: slideUp 0.3s ease;
       }
 
@@ -136,23 +135,24 @@ Chart.register(...registerables);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 24px 32px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        padding: 32px 40px;
+        border-bottom: 1px solid #e2e8f0;
       }
 
       .modal-header h2 {
         margin: 0;
-        font-size: 24px;
+        font-size: 28px;
         font-weight: 700;
-        color: #1e293b;
+        color: #0f172a;
+        letter-spacing: -0.025em;
       }
 
       .close-btn {
         background: none;
         border: none;
         cursor: pointer;
-        padding: 8px;
-        border-radius: 8px;
+        padding: 10px;
+        border-radius: 10px;
         color: #64748b;
         transition: all 0.3s ease;
       }
@@ -163,61 +163,52 @@ Chart.register(...registerables);
       }
 
       .modal-body {
-        padding: 32px;
+        padding: 40px;
       }
 
       .summary-cards {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        margin-bottom: 32px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 24px;
+        margin-bottom: 40px;
       }
 
       .summary-card {
-        padding: 20px;
-        border-radius: 12px;
+        padding: 24px;
+        border-radius: 16px;
         text-align: center;
+        border: 1px solid #e2e8f0;
       }
 
       .summary-card.current {
-        background: linear-gradient(
-          135deg,
-          rgba(59, 130, 246, 0.1),
-          rgba(59, 130, 246, 0.05)
-        );
-        border: 1px solid rgba(59, 130, 246, 0.2);
+        background: rgba(59, 130, 246, 0.05);
+        border-color: rgba(59, 130, 246, 0.2);
       }
 
       .summary-card.previous {
-        background: linear-gradient(
-          135deg,
-          rgba(148, 163, 184, 0.1),
-          rgba(148, 163, 184, 0.05)
-        );
-        border: 1px solid rgba(148, 163, 184, 0.2);
+        background: rgba(148, 163, 184, 0.05);
+        border-color: rgba(148, 163, 184, 0.2);
       }
 
       .summary-card.growth {
-        background: linear-gradient(
-          135deg,
-          rgba(16, 185, 129, 0.1),
-          rgba(16, 185, 129, 0.05)
-        );
-        border: 1px solid rgba(16, 185, 129, 0.2);
+        background: rgba(16, 185, 129, 0.05);
+        border-color: rgba(16, 185, 129, 0.2);
       }
 
       .summary-card h4 {
-        margin: 0 0 12px 0;
-        font-size: 14px;
+        margin: 0 0 16px 0;
+        font-size: 15px;
         font-weight: 600;
         color: #64748b;
         text-transform: uppercase;
+        letter-spacing: 0.05em;
       }
 
       .summary-value {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: 800;
-        color: #1e293b;
+        color: #0f172a;
+        letter-spacing: -0.025em;
       }
 
       .summary-value.positive {
@@ -228,27 +219,29 @@ Chart.register(...registerables);
       }
 
       .charts-section {
-        margin-bottom: 32px;
+        margin-bottom: 40px;
       }
 
       .chart-container {
-        background: rgba(248, 250, 252, 0.5);
-        border-radius: 12px;
-        padding: 24px;
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 32px;
+        border: 1px solid #e2e8f0;
       }
 
       .chart-container h4 {
-        margin: 0 0 20px 0;
-        font-size: 18px;
+        margin: 0 0 24px 0;
+        font-size: 20px;
         font-weight: 600;
-        color: #1e293b;
+        color: #0f172a;
+        letter-spacing: -0.025em;
       }
 
       .chart-wrapper-inner {
         position: relative;
         width: 100%;
-        max-height: 400px;
-        min-height: 300px;
+        max-height: 420px;
+        min-height: 320px;
       }
 
       .chart-container canvas {
@@ -257,16 +250,17 @@ Chart.register(...registerables);
       }
 
       .table-section h4 {
-        margin: 0 0 20px 0;
-        font-size: 18px;
+        margin: 0 0 24px 0;
+        font-size: 20px;
         font-weight: 600;
-        color: #1e293b;
+        color: #0f172a;
+        letter-spacing: -0.025em;
       }
 
       .table-wrapper {
         overflow-x: auto;
-        border-radius: 12px;
-        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
       }
 
       .drill-down-table {
@@ -275,22 +269,24 @@ Chart.register(...registerables);
       }
 
       .drill-down-table th {
-        background: rgba(148, 163, 184, 0.1);
-        padding: 16px;
+        background: #f8fafc;
+        padding: 20px;
         text-align: left;
         font-weight: 700;
-        color: #1e293b;
-        font-size: 14px;
+        color: #0f172a;
+        font-size: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
       }
 
       .drill-down-table td {
-        padding: 16px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        padding: 20px;
+        border-bottom: 1px solid #e2e8f0;
       }
 
       .city-name {
         font-weight: 600;
-        color: #1e293b;
+        color: #0f172a;
       }
 
       .currency {
@@ -336,16 +332,27 @@ Chart.register(...registerables);
       @media (max-width: 768px) {
         .modal-content {
           width: 95%;
-          margin: 20px;
+          margin: 16px;
+          border-radius: 20px;
         }
 
         .modal-header,
         .modal-body {
-          padding: 20px;
+          padding: 24px;
         }
 
         .summary-cards {
           grid-template-columns: 1fr;
+          gap: 16px;
+        }
+
+        .chart-container {
+          padding: 24px;
+        }
+
+        .drill-down-table th,
+        .drill-down-table td {
+          padding: 16px;
         }
       }
     `,

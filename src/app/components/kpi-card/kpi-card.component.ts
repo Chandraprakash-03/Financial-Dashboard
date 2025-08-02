@@ -36,21 +36,21 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [`
     .kpi-card {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       transition: all 0.3s ease;
-      min-height: 160px;
+      min-height: 180px;
       cursor: pointer;
       position: relative;
     }
 
     .kpi-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-color: #cbd5e1;
     }
 
     .kpi-card--success { border-left: 4px solid #10b981; }
@@ -62,38 +62,39 @@ import { CommonModule } from '@angular/common';
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .kpi-title {
       margin: 0;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       color: #64748b;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.05em;
     }
 
     .kpi-content {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .kpi-value {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 800;
-      color: #1e293b;
+      color: #0f172a;
+      letter-spacing: -0.025em;
     }
 
     .trend-indicator {
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 12px;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
       font-weight: 600;
     }
 
@@ -114,10 +115,11 @@ import { CommonModule } from '@angular/common';
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 12px;
+      font-size: 13px;
       color: #64748b;
-      opacity: 0.7;
+      opacity: 0.8;
       transition: opacity 0.3s ease;
+      font-weight: 500;
     }
 
     .kpi-card:hover .drill-down-hint {
